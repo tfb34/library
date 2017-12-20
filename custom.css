@@ -8,7 +8,7 @@ th{
 	text-align: center;
 }
 table{
-	background-color: grey;
+	background-color: #9EA8AD;
 	width: 100%;
 }
 #bookForm{
@@ -30,4 +30,7 @@ table{
 #displayTitle,#displayAuthor{
 	color: green;
 	font-weight: bold;
+}
+a:visited{
+	color: blue;
 }
