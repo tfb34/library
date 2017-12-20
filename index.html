@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <link rel="stylesheet" type="text/css" href="custom.css">
+     <script src="myScript.js"></script> 
+</head>
+<body>
+    <table id="bookTable">
+        <tr id="table-header">
+            <th style="padding-right: 200px">Name</th>
+            <th></th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </table>
+
+    <div id="showFormButton" onclick="showForm()">Add Book</div>
+
+    <form id="bookForm">
+      Name: <input type="text" name="name"><br>
+      Author: <input type="text" name="author"><br><br>
+      Pages: <input type="number" name="pages"><br><br>
+      <input type="button" onclick="addBook()" value="Submit form">
+    </form>
+
+    
+
+    <form>
+
+    </form>
+
+</body>
+</html>

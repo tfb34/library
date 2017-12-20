@@ -1,0 +1,23 @@
+body{
+	background-color: #00927F;
+}
+th{
+	min-width: 70px;
+}
+table{
+	background-color: grey;
+}
+#bookForm{
+	display: none;
+}
+#showFormButton{
+	border: 1px solid grey;
+	width: 100px;
+	text-align: center;
+}
+#showFormButton:hover{
+	background-color: yellow;
+}
+#table-header{
+	background-color: #F6F6F6;
+}
