@@ -40,6 +40,7 @@ function render(){
 	for(let i =numBooks-1;i<myLibrary.length;i++){
 		book = myLibrary[i];
 
+// function createElement(element,id,property)
 		newRow = document.createElement("tr");
 		newRow.id = "book"+i;
 
@@ -97,6 +98,17 @@ function render(){
 	}
 }
 
+function createElement(element,id,property){
+	let x = document.createElement(element);
+	x.id = id;
+	if(property != "status"){
+		x.innerHTML = book[property];
+	}else{
+		x.innerHTML = book[property]();
+	}
+	return x;
+}
+
 
 //add book to cancel, toggle
 function showForm(){
@@ -112,11 +124,27 @@ function showForm(){
 
 function addBook(){
     let inputs = document.querySelectorAll("input");
-    console.log(inputs[0].value);
+    console.log("addbook");
+
+    if(checkFormErrors(inputs)){
+    	console.log("errors");
+    	return;
+    }
+    console.log("huh");
 	addBookToLibary(new Book(inputs[0].value, inputs[1].value,inputs[2].value));
 	render();
 	document.getElementById('bookForm').reset();
 	showForm();
+}
+// name author pages 
+function checkFormErrors(inputs){
+	console.log("checkFormErrors");
+	let errors = false;
+	if(inputs[0].value =="" || inputs[1].value==""){
+		errors = true;
+		alert("Please enter the title and author of book.");
+	}
+	return errors;
 }
 
 // Given: a string with numbers. (e.g. "book10")
@@ -138,6 +166,7 @@ function removeBook(id){
 	document.getElementById(id).remove();
 }
 
+// when user changes 
 function editStatus(obj){
 	//okay we want to show a form
 	//create form in the box you want form to be in

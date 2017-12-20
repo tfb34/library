@@ -6,14 +6,17 @@ th{
 }
 table{
 	background-color: grey;
+	width: 100%;
 }
 #bookForm{
 	display: none;
+	color: white;
 }
 #showFormButton{
 	border: 1px solid grey;
 	width: 100px;
 	text-align: center;
+	background-color: white;
 }
 #showFormButton:hover{
 	background-color: yellow;
