@@ -34,3 +34,15 @@ table{
 a:visited{
 	color: blue;
 }
+#editForm{
+	min-width: 500px;
+	width: 50%;
+	margin-left: 10%;
+}
+#template{
+	width: 50%;height:20vw;
+	padding-top:30px;margin-left:25%;
+	background-color: white;
+	display: none;
+	border-radius: 15px;
+}
