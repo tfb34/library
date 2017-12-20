@@ -12,7 +12,7 @@ It's an app that allows user to keep a record of their favorite books or books t
 2)User may also remove and edit books in library.
 
 
-<a href="#"> Open in Browser</a>
+<a href="https://tfb34.github.io/library-app/"> Open in Browser</a>
 
 
 
