@@ -205,9 +205,12 @@ function matchBook(id){
 	document.getElementById("template").style.display="block";
 	let form =document.getElementsByClassName("formBook")[0];
 	form.id= "bookNum"+getIndex(id);
-	//predefine value for pages and score to current book
+	//predefine value for pages and score to current book. innerHtml perhaps. change 'selected' 
+	// add a cancel button to close form. 
 
 }
+
+
 
 function editBook(id){
 	let index = getIndex(id);
@@ -225,5 +228,7 @@ function editBook(id){
 	// display this new info
 	document.getElementById("pages"+index).innerHTML = pages;
 	document.getElementById("score"+index).innerHTML = score;
+	// hide form
+	document.getElementById("template").style.display = "none";
 	
 }

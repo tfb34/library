@@ -4,7 +4,7 @@ body{
 th{
 	min-width: 70px;
 }
-#score{
+[id^=score]{
 	text-align: center;
 }
 table{
