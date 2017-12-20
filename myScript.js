@@ -1,10 +1,11 @@
 let myLibrary = [];
 
-function Book(name, author, pages, read){
+function Book(name, author, pages,score){
 	this.name = name,
 	this.author = author,
 	this.pages = pages,
-	this.read = read,
+	this.read = undefined,
+	this.score = score,
 
 	this.info = function(){
 		let read = "finished";
@@ -35,7 +36,7 @@ function addBookToLibary(book){
 function render(){
 	let newRow;
 	let book;
-	let name,author,pages,status;
+	let name,author,pages,status, score;
 
 	for(let i =numBooks-1;i<myLibrary.length;i++){
 		book = myLibrary[i];
@@ -45,27 +46,37 @@ function render(){
 		newRow.id = "book"+i;
 
 		name = document.createElement("td");
-		name.id = 'name';
+		name.id = 'name'+i;
 		name.innerHTML = book.name;
 
 		edit = document.createElement("td");
-		edit.id = 'edit'
-		edit.innerHTML = 'edit';
+		let x = document.createElement("a");
+		x.id =newRow.id;
+		x.href="#";
+		x.innerHTML = 'edit';
+		x.setAttribute("onclick","matchBook(this.id)");
+		edit.append(x);
 
 		author = document.createElement("td");
-		author.id = 'author';
+		author.id = 'author'+i;
 		author.innerHTML = book.author;
 
 		pages = document.createElement("td");
-		pages.id = 'pages';
+		pages.id = 'pages'+i;
 		pages.innerHTML = book.pages;
+
+		score = document.createElement("td");
+		score.id = "score"+i;
+		score.innerHTML = book.score;
 
 		status = document.createElement("td");
 		status.id = 'status';
 		let selectList = document.createElement("SELECT");
 		let array = ["not read yet","finished"];
 		selectList.id = "mySelect"+i;
-		//create and append options
+
+
+		// Status options
 		for(let i=0;i<array.length;i++){
 			let option = document.createElement("option");
 			option.setAttribute("value",array[i]);
@@ -85,7 +96,7 @@ function render(){
 		a.href="#";
 		remove.append(a);
 
-		newRow.append(name,edit,author,pages,status,remove);
+		newRow.append(name,edit,author,score,pages,status,remove);
 
 
 		
@@ -113,9 +124,12 @@ function createElement(element,id,property){
 //add book to cancel, toggle
 function showForm(){
 	let x = document.getElementById("showFormButton");
+	let form = document.getElementById("bookForm");
 	if(x.textContent == "Add Book"){
-		document.getElementById("bookForm").style.display = "block";
+		form.style.display = "block";
+		form.reset();
 		x.textContent = "Cancel";
+
 	}else{
 		document.getElementById("bookForm").style.display = "none";
 		x.textContent = "Add Book";
@@ -124,21 +138,24 @@ function showForm(){
 
 function addBook(){
     let inputs = document.querySelectorAll("input");
-    console.log("addbook");
 
     if(checkFormErrors(inputs)){
-    	console.log("errors");
     	return;
     }
-    console.log("huh");
-	addBookToLibary(new Book(inputs[0].value, inputs[1].value,inputs[2].value));
+
+    let score = document.getElementById("selectScore").value;
+
+    if(score == "selectScore"){
+    	score = '-';
+    }
+	addBookToLibary(new Book(inputs[0].value, inputs[1].value,inputs[2].value,score));
+	
 	render();
 	document.getElementById('bookForm').reset();
 	showForm();
 }
 // name author pages 
 function checkFormErrors(inputs){
-	console.log("checkFormErrors");
 	let errors = false;
 	if(inputs[0].value =="" || inputs[1].value==""){
 		errors = true;
@@ -166,15 +183,12 @@ function removeBook(id){
 	document.getElementById(id).remove();
 }
 
-// when user changes 
 function editStatus(obj){
-	//okay we want to show a form
-	//create form in the box you want form to be in
-	//get index of option selected
+
 	let index = obj.selectedIndex;
-	//get value of option selected 
+	
 	let inputText = obj.children[index].innerHTML.trim();
-	//update book info
+	// update book info
 	let book = myLibrary[getIndex(obj.id)];
 	
 	if(inputText == "finished"){
@@ -182,4 +196,34 @@ function editStatus(obj){
 	}else{
 		book.read = false;
 	}
+}
+
+
+// link edit form to book
+function matchBook(id){
+	// acquire form  and display it
+	document.getElementById("template").style.display="block";
+	let form =document.getElementsByClassName("formBook")[0];
+	form.id= "bookNum"+getIndex(id);
+	//predefine value for pages and score to current book
+
+}
+
+function editBook(id){
+	let index = getIndex(id);
+	
+	let inputs = document.querySelectorAll("input");
+
+	let pages = inputs[4].value;
+	let score = document.getElementById("editSelectScore").value;
+
+	// update record
+	let book = myLibrary[index];
+	book.pages = pages;
+	book.score = score;
+
+	// display this new info
+	document.getElementById("pages"+index).innerHTML = pages;
+	document.getElementById("score"+index).innerHTML = score;
+	
 }

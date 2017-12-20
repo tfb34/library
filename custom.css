@@ -4,6 +4,9 @@ body{
 th{
 	min-width: 70px;
 }
+#score{
+	text-align: center;
+}
 table{
 	background-color: grey;
 	width: 100%;

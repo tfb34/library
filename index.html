@@ -9,9 +9,10 @@
 <body>
     <table id="bookTable">
         <tr id="table-header">
-            <th style="padding-right: 200px">Name</th>
+            <th style="padding-right: 200px">Title</th>
             <th></th>
             <th>Author</th>
+            <th>Score</th>
             <th>Pages</th>
             <th>Status</th>
             <th></th>
@@ -21,20 +22,55 @@
     <div id="showFormButton" onclick="showForm()">Add Book</div>
 
     <form id="bookForm">
-      Title:<br>
-      <input type="text" name="name"><br>
-      Author<br>
-      <input type="text" name="author"><br>
-      Pages<br>
-      <input type="number" name="pages"><br><br>
-      <input type="button" onclick="addBook()" value="Submit form">
+        Title:<br>
+        <input type="text" name="name"><br>
+        Author<br>
+        <input type="text" name="author"><br>
+        Pages<br>
+        <input type="number" name="pages"><br>
+        Score<br>
+        <select name="score" id="selectScore">
+            <option value="selectScore" selected >Select Score</option>
+            <option value="10">10(MasterPiece)</option>
+            <option value="9">9(Great)</option>
+            <option value="8">8(Very Good)</option>
+            <option value="7">7(Good)</option>
+            <option value="6">6(Fine)</option>
+            <option value="5">5(Average)</option>
+            <option value="4">4(Bad)</option>
+            <option value="3">3(Very Bad)</option>
+            <option value="2">2(Horrible)</option>
+            <option value="1">1(Dreadful)</option>
+        </select><br><br>
+        <input type="button" onclick="addBook()" value="Submit form">
     </form>
 
-    
+    <p id="display"></p>
 
-    <form>
 
-    </form>
+    <div id="template" style="width: 50%;height:25vw;margin-left:25%;background-color: white;display: none;">
+        <form id="editForm">
+            Title: <span id="displayTitle"></span><br>
+            Author: <span id="displayAuthor"></span><br>
+            Pages<br>
+            <input type="number" name="pages"><br>
+            Score<br>
+            <select name="score" id="editSelectScore">
+                <option value="selectScore" selected >Select Score</option>
+                <option value="10">10(MasterPiece)</option>
+                <option value="9">9(Great)</option>
+                <option value="8">8(Very Good)</option>
+                <option value="7">7(Good)</option>
+                <option value="6">6(Fine)</option>
+                <option value="5">5(Average)</option>
+                <option value="4">4(Bad)</option>
+                <option value="3">3(Very Bad)</option>
+                <option value="2">2(Horrible)</option>
+                <option value="1">1(Dreadful)</option>
+            </select><br><br>
+            <input type="button" id="bookNum" class="formBook" onclick="editBook(this.id)" value="Save">
+        </form>
+    </div>
 
 </body>
 </html>
