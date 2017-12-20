@@ -14,6 +14,6 @@ It's an app that allows user to keep a record of their favorite books or books t
 
 <a href="https://tfb34.github.io/library-app/"> Open in Browser</a>
 
-
-
+<h4>Project Status</h4>
+Still in progress...
 
