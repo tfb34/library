@@ -29,11 +29,13 @@ function Book(name, author, pages,score){
 let numBooks = 0;
 
 function addBookToLibary(book){
+	console.log("addBookToLibary");
 	myLibrary.push(book);
 	numBooks+=1;
 }
 
 function render(){
+	console.log("render");
 	let newRow;
 	let book;
 	let name,author,pages,status, score;
@@ -110,6 +112,7 @@ function render(){
 }
 
 function createElement(element,id,property){
+	console.log("createElement");
 	let x = document.createElement(element);
 	x.id = id;
 	if(property != "status"){
@@ -123,6 +126,7 @@ function createElement(element,id,property){
 
 //add book to cancel, toggle
 function showForm(){
+	console.log("showForm");
 	let x = document.getElementById("showFormButton");
 	let form = document.getElementById("bookForm");
 	if(x.textContent == "Add Book"){
@@ -137,6 +141,7 @@ function showForm(){
 }
 
 function addBook(){
+	console.log("addBook");
     let inputs = document.querySelectorAll("input");
 
     if(checkFormErrors(inputs)){
@@ -156,6 +161,7 @@ function addBook(){
 }
 // name author pages 
 function checkFormErrors(inputs){
+	console.log("checkFormErrors");
 	let errors = false;
 	if(inputs[0].value =="" || inputs[1].value==""){
 		errors = true;
@@ -167,6 +173,7 @@ function checkFormErrors(inputs){
 // Given: a string with numbers. (e.g. "book10")
 // Return: number found in string. (returns 10);
 function getIndex(id){
+	console.log("getIndex")
 	let index = parseInt(id.match(/(\d[\d\.]*)/g));
 	return index;
 }
@@ -184,7 +191,7 @@ function removeBook(id){
 }
 
 function editStatus(obj){
-
+	console.log("editStatus");
 	let index = obj.selectedIndex;
 	
 	let inputText = obj.children[index].innerHTML.trim();
@@ -201,10 +208,26 @@ function editStatus(obj){
 
 // link edit form to book
 function matchBook(id){
-	// acquire form  and display it
+	//close other forms if opened
+	console.log("matchBook called")
+	document.getElementById("bookForm").style.display = "none";
+	document.getElementById("showFormButton").textContent = "Add Book";
+
+	let index = getIndex(id);
+	let book = myLibrary[index];
 	document.getElementById("template").style.display="block";
+	document.getElementById("displayTitle").innerHTML = book.name;
+	document.getElementById("displayAuthor").innerHTML = book.author;
+	document.getElementById("editPages").value = book.pages;
+
+	console.log(book.score);
+	if(book.score == '-'){
+		document.getElementById("default").selected = true;
+	}else{
+		document.getElementById(book.score).selected = true;
+	}
 	let form =document.getElementsByClassName("formBook")[0];
-	form.id= "bookNum"+getIndex(id);
+	form.id= "bookNum"+index;
 	//predefine value for pages and score to current book. innerHtml perhaps. change 'selected' 
 	// add a cancel button to close form. 
 
@@ -213,6 +236,7 @@ function matchBook(id){
 
 
 function editBook(id){
+	console.log("editBook called");
 	let index = getIndex(id);
 	
 	let inputs = document.querySelectorAll("input");
@@ -229,6 +253,10 @@ function editBook(id){
 	document.getElementById("pages"+index).innerHTML = pages;
 	document.getElementById("score"+index).innerHTML = score;
 	// hide form
+	closeEditForm();
+}
+
+
+function closeEditForm(){
 	document.getElementById("template").style.display = "none";
-	
 }

@@ -53,22 +53,23 @@
             Title: <span id="displayTitle"></span><br>
             Author: <span id="displayAuthor"></span><br>
             Pages<br>
-            <input type="number" name="pages"><br>
+            <input type="number" name="pages" id="editPages"><br>
             Score<br>
             <select name="score" id="editSelectScore">
-                <option value="selectScore" selected >Select Score</option>
-                <option value="10">10(MasterPiece)</option>
-                <option value="9">9(Great)</option>
-                <option value="8">8(Very Good)</option>
-                <option value="7">7(Good)</option>
-                <option value="6">6(Fine)</option>
-                <option value="5">5(Average)</option>
-                <option value="4">4(Bad)</option>
-                <option value="3">3(Very Bad)</option>
-                <option value="2">2(Horrible)</option>
-                <option value="1">1(Dreadful)</option>
+                <option id="default" value="selectScore" selected >Select Score</option>
+                <option id="10" value="10">10(MasterPiece)</option>
+                <option id="9" value="9">9(Great)</option>
+                <option id="8" value="8">8(Very Good)</option>
+                <option id="7" value="7">7(Good)</option>
+                <option id="6" value="6">6(Fine)</option>
+                <option id="5" value="5">5(Average)</option>
+                <option id="4" value="4">4(Bad)</option>
+                <option id="3" value="3">3(Very Bad)</option>
+                <option id="2" value="2">2(Horrible)</option>
+                <option id="1" value="1">1(Dreadful)</option>
             </select><br><br>
             <input type="button" id="bookNum" class="formBook" onclick="editBook(this.id)" value="Save">
+            <input type="button" onclick="closeEditForm()" value="Cancel">
         </form>
     </div>
 

@@ -27,3 +27,7 @@ table{
 #table-header{
 	background-color: #F6F6F6;
 }
+#displayTitle,#displayAuthor{
+	color: green;
+	font-weight: bold;
+}
