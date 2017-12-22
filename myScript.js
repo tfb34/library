@@ -88,16 +88,17 @@ function render(startingIndex){
 
 			status = document.createElement("td");
 			status.id = 'status';
+
 			let selectList = document.createElement("SELECT");
+			console.log(selectList);
 			let array = ["not read yet","finished"];
 			selectList.id = "mySelect"+i;
 
-
 			// Status options
-			for(let i=0;i<array.length;i++){
+			for(let x=0;x<array.length;x++){
 				let option = document.createElement("option");
-				option.setAttribute("value",array[i]);
-				option.text = array[i];
+				option.setAttribute("value",array[x]);
+				option.text = array[x];
 				selectList.appendChild(option);
 			}
 			selectList.value = bookStatus(book.read); // book.status();
@@ -116,9 +117,8 @@ function render(startingIndex){
 			newRow.append(name,edit,author,score,pages,status,remove);
 
 			document.getElementById("bookTable").append(newRow);
-			document.getElementsByTagName('select')[0].onchange = function(){
-				editStatus(this);
-			}
+			document.getElementById("mySelect"+i).setAttribute("onchange", "editStatus(this)");
+			
 		}
 	}
 }
@@ -225,6 +225,7 @@ function editStatus(obj){
 		book.read = false;
 	}
 	// update localStorage
+	console.log(editStatus);
 	if(localStorage.getItem('myLibrary')){
 		localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
 	}
