@@ -1,113 +1,126 @@
 let myLibrary = [];
+let numBooks = 0;
+//if item is found, then extract info
+if(localStorage.getItem('library')){
+	// may throw exception, so come back to this
+	console.log("localStorage found");
+	myLibrary = JSON.parse(localStorage.getItem('mylibrary')); 
+	numBooks = JSON.parse(localStorage.getItem('numBooks'));
+	render(0);// render all books in library
+}else{
+	console.log("no localStorage apparently");
+	localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+	localStorage.setItem('numBooks',JSON.stringify(numBooks));
+}
+
 
 function Book(name, author, pages,score){
 	this.name = name,
 	this.author = author,
 	this.pages = pages,
-	this.read = undefined,
+	this.read = false,// undefined
 	this.score = score,
-
-	this.info = function(){
-		let read = "finished";
-		if(!this.read){
-			read ="not read yet";
-		}
-		console.log(this.name+" by "+this.author+", "+this.pages+", "+read);
-	},
-
-	this.status = function(){
-		let status;
-		if(this.read){
-			status = "finished"
-		}else{
-			status =  "not read yet";
-		}
-		return status;
-	}
+	this.deleted = false
 }
 
-let numBooks = 0;
+function bookStatus(read){
+	let status;
+	if(read){
+		status = "finished";
+	}else{
+		status = "not read yet";
+	}return status;
+}
+
 
 function addBookToLibary(book){
 	console.log("addBookToLibary");
 	myLibrary.push(book);
 	numBooks+=1;
+	// update localStorage items if they exist
+	if(localStorage.getItem('myLibrary') && localStorage.getItem('numBooks')){
+		console.log("items do exist. ready for update..");
+		localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+		localStorage.setItem('numBooks',JSON.stringify(numBooks));
+	}
+
 }
 
-function render(){
+function render(startingIndex){
 	console.log("render");
 	let newRow;
 	let book;
 	let name,author,pages,status, score;
 
-	for(let i =numBooks-1;i<myLibrary.length;i++){
+	for(let i =startingIndex;i<myLibrary.length;i++){// numBooks-1, startingIndex
 		book = myLibrary[i];
 
-// function createElement(element,id,property)
-		newRow = document.createElement("tr");
-		newRow.id = "book"+i;
+		if(book.deleted == false){
+			// function createElement(element,id,property)
+			newRow = document.createElement("tr");
+			newRow.id = "book"+i;
 
-		name = document.createElement("td");
-		name.id = 'name'+i;
-		name.innerHTML = book.name;
+			name = document.createElement("td");
+			name.id = 'name'+i;
+			name.innerHTML = book.name;
 
-		edit = document.createElement("td");
-		let x = document.createElement("a");
-		x.id =newRow.id;
-		x.href="#";
-		x.innerHTML = 'edit';
-		x.setAttribute("onclick","matchBook(this.id)");
-		edit.append(x);
+			edit = document.createElement("td");
+			let x = document.createElement("a");
+			x.id =newRow.id;
+			x.href="#";
+			x.innerHTML = 'edit';
+			x.setAttribute("onclick","matchBook(this.id)");
+			edit.append(x);
 
-		author = document.createElement("td");
-		author.id = 'author'+i;
-		author.innerHTML = book.author;
+			author = document.createElement("td");
+			author.id = 'author'+i;
+			author.innerHTML = book.author;
 
-		pages = document.createElement("td");
-		pages.id = 'pages'+i;
-		pages.innerHTML = book.pages;
+			pages = document.createElement("td");
+			pages.id = 'pages'+i;
+			pages.innerHTML = book.pages;
 
-		score = document.createElement("td");
-		score.id = "score"+i;
-		score.innerHTML = book.score;
+			score = document.createElement("td");
+			score.id = "score"+i;
+			score.innerHTML = book.score;
 
-		status = document.createElement("td");
-		status.id = 'status';
-		let selectList = document.createElement("SELECT");
-		let array = ["not read yet","finished"];
-		selectList.id = "mySelect"+i;
+			status = document.createElement("td");
+			status.id = 'status';
+			let selectList = document.createElement("SELECT");
+			let array = ["not read yet","finished"];
+			selectList.id = "mySelect"+i;
 
 
-		// Status options
-		for(let i=0;i<array.length;i++){
-			let option = document.createElement("option");
-			option.setAttribute("value",array[i]);
-			option.text = array[i];
-			selectList.appendChild(option);
+			// Status options
+			for(let i=0;i<array.length;i++){
+				let option = document.createElement("option");
+				option.setAttribute("value",array[i]);
+				option.text = array[i];
+				selectList.appendChild(option);
+			}
+			selectList.value = bookStatus(book.read); // book.status();
+			status.append(selectList);
+
+			
+
+			remove = document.createElement("td");
+			let a = document.createElement("a");
+			a.id = newRow.id;
+			a.setAttribute("onclick", "removeBook(this.id)");
+			a.innerHTML = 'delete';
+			a.href="#";
+			remove.append(a);
+
+			newRow.append(name,edit,author,score,pages,status,remove);
+
+
+			
+			document.getElementById("bookTable").append(newRow);
+
+			document.getElementsByTagName('select')[0].onchange = function(){
+				editStatus(this);
+			}
 		}
-		selectList.value = book.status();
-		status.append(selectList);
-
-		
-
-		remove = document.createElement("td");
-		let a = document.createElement("a");
-		a.id = newRow.id;
-		a.setAttribute("onclick", "removeBook(this.id)");
-		a.innerHTML = 'delete';
-		a.href="#";
-		remove.append(a);
-
-		newRow.append(name,edit,author,score,pages,status,remove);
-
-
-		
-		document.getElementById("bookTable").append(newRow);
-
-		document.getElementsByTagName('select')[0].onchange = function(){
-			editStatus(this);
-		}
-
 	}
 }
 
@@ -155,7 +168,8 @@ function addBook(){
     }
 	addBookToLibary(new Book(inputs[0].value, inputs[1].value,inputs[2].value,score));
 	
-	render();
+	//display new book item
+	render(numBooks-1);
 	document.getElementById('bookForm').reset();
 	showForm();
 }
@@ -188,6 +202,13 @@ function removeBook(id){
 	//numBooks-=1;
 	//remove from table
 	document.getElementById(id).remove();
+	//update localStorage
+	let book = myLibrary[getIndex(id)];
+	book.deleted = true;
+
+	if(localStorage.getItem('myLibrary')){
+		localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
+	}
 }
 
 function editStatus(obj){
@@ -197,11 +218,15 @@ function editStatus(obj){
 	let inputText = obj.children[index].innerHTML.trim();
 	// update book info
 	let book = myLibrary[getIndex(obj.id)];
-	
+	// update book info
 	if(inputText == "finished"){
 		book.read = true;
 	}else{
 		book.read = false;
+	}
+	// update localStorage
+	if(localStorage.getItem('myLibrary')){
+		localStorage.setItem('myLibrary',JSON.stringify(myLibrary));
 	}
 }
 
@@ -248,8 +273,11 @@ function editBook(id){
 	let book = myLibrary[index];
 	book.pages = pages;
 	book.score = score;
-
-	// display this new info
+	// update localStorage
+	if(localStorage.getItem('myLibrary')){
+		localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+	}
+	// display updated info
 	document.getElementById("pages"+index).innerHTML = pages;
 	document.getElementById("score"+index).innerHTML = score;
 	// hide form
