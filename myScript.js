@@ -1,18 +1,20 @@
 let myLibrary = [];
 let numBooks = 0;
 //if item is found, then extract info
-if(localStorage.getItem('library')){
+if(localStorage.getItem('myLibrary')){
 	// may throw exception, so come back to this
 	console.log("localStorage found");
-	myLibrary = JSON.parse(localStorage.getItem('mylibrary')); 
+	myLibrary = JSON.parse(localStorage.getItem('myLibrary')); 
 	numBooks = JSON.parse(localStorage.getItem('numBooks'));
-	render(0);// render all books in library
 }else{
 	console.log("no localStorage apparently");
 	localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 	localStorage.setItem('numBooks',JSON.stringify(numBooks));
 }
 
+setTimeout(function(){
+    render(0);
+}, 200);
 
 function Book(name, author, pages,score){
 	this.name = name,
@@ -47,14 +49,14 @@ function addBookToLibary(book){
 }
 
 function render(startingIndex){
-	console.log("render");
+	console.log("render"+startingIndex);
 	let newRow;
 	let book;
 	let name,author,pages,status, score;
 
 	for(let i =startingIndex;i<myLibrary.length;i++){// numBooks-1, startingIndex
 		book = myLibrary[i];
-
+		console.log(book);
 		if(book.deleted == false){
 			// function createElement(element,id,property)
 			newRow = document.createElement("tr");
@@ -113,16 +115,14 @@ function render(startingIndex){
 
 			newRow.append(name,edit,author,score,pages,status,remove);
 
-
-			
 			document.getElementById("bookTable").append(newRow);
-
 			document.getElementsByTagName('select')[0].onchange = function(){
 				editStatus(this);
 			}
 		}
 	}
 }
+
 
 function createElement(element,id,property){
 	console.log("createElement");
